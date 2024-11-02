@@ -43,6 +43,11 @@ const schema_memberreg = new mongoose.Schema({
 const User = mongoose.model("user", schema_signup);
 const Member = mongoose.model("member_registration", schema_memberreg);
 
+const users = [
+  {email: "dilusha@gmail.com", password: "123"},
+  {email: "romesh@gmail.com", password: "456"},
+];
+
 app.get("/", async (req, res) => {
   mongoose.connect(con_string).then(() => {
     console.log("DB connected");
@@ -71,25 +76,24 @@ app.post("/signup", (req, res) => {
   });
 });
 
+// get All users
+app.get("/users/get/all", (req, res) => {
+  res.json(users);
+});
+
 //sign in process
 app.post("/signin", async (req, res) => {
-  // const loginUser = req.body;
-  const {email, password} = req.body;
-  console.log(loginUser);
-
-  try {
-    const user = await User.findOne({email});
-    if (!user) {
-      return res.status(404).send({message: "User not found."});
-    }
-    if (user.password !== password) {
-      return res.status(401).send({message: "Incorrect password."});
-    }
-    res.send({message: "User logged in successfully."});
-  } catch (err) {
-    console.error("Error during sign-in: ", err);
-    res.status(500).send("Error during sign-in");
+  const {email, password} = req.body; // Find user in the array
+  const user = users.find(
+    (user) => user.email === email && user.password === password
+  );
+  if (user) {
+    res.json({success: true});
+  } else {
+    res.status(404).json({success: false, message: "User not found"});
   }
+
+  // res.json({success: true});
 });
 
 app.listen(port, () => {
