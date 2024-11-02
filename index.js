@@ -8,6 +8,10 @@ app.use(bodyParser.json());
 var things = require("./methods.js");
 app.use("/methods", things);
 
+const cors = require("cors");
+const corsOptions = {origin: "http://127.0.0.1:8080"}; // Your frontend URL };
+app.use(cors(corsOptions));
+
 const port = 3000;
 const con_string =
   "mongodb+srv://sindutharu821:ichurch123@ichurch.inzey.mongodb.net/?retryWrites=true&w=majority&appName=ichurch";
@@ -122,7 +126,7 @@ app.post("/member-registration/create", (req, res) => {
 });
 
 //update registered memebers
-app.put("/member-registration/:id", async (req, res) => {
+app.put("/update-member-registration/:id", async (req, res) => {
   const {id} = req.params;
   const updates = req.body;
 
@@ -141,7 +145,7 @@ app.put("/member-registration/:id", async (req, res) => {
 });
 
 //delete members
-app.delete("/member-registration/:id", async (req, res) => {
+app.delete("/member-registration/delete/:id", async (req, res) => {
   const {id} = req.params;
   try {
     const deletedMember = await Member.findByIdAndDelete(id);
@@ -156,7 +160,7 @@ app.delete("/member-registration/:id", async (req, res) => {
 });
 
 //search memebers
-app.get("/member-registration", async (req, res) => {
+app.get("/member-registration/get/all", async (req, res) => {
   const searchCriteria = req.query;
 
   try {
