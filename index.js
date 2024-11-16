@@ -129,6 +129,22 @@ app.post("/member-registration/create", (req, res) => {
   });
 });
 
+// get member by id
+app.get("/member-registration/:id", async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    const member = await Member.findById(id);
+    if (!member) {
+      return res.status(404).send({message: "Member not found."});
+    }
+    res.send({member});
+  } catch (err) {
+    console.error("Error fetching member: ", err);
+    res.status(500).send("Error fetching member");
+  }
+});
+
 //update registered memebers
 app.put("/update-member-registration/:id", async (req, res) => {
   const {id} = req.params;
