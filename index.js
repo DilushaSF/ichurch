@@ -83,17 +83,15 @@ app.get("/users/get/all", (req, res) => {
 
 //sign in process
 app.post("/signin", async (req, res) => {
-  const {email, password} = req.body; // Find user in the array
+  const {email, password} = req.body;
   const user = users.find(
     (user) => user.email === email && user.password === password
   );
   if (user) {
     res.json({success: true});
   } else {
-    res.status(404).json({success: false, message: "User not found"});
+    res.status(404).json({message: "Invalid Credentials"});
   }
-
-  // res.json({success: true});
 });
 
 app.listen(port, () => {
