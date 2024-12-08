@@ -9,8 +9,8 @@ var things = require("./methods.js");
 app.use("/methods", things);
 
 const cors = require("cors");
-const corsOptions = {origin: "http://127.0.0.1:8080"}; // Your frontend URL };
-app.use(cors(corsOptions));
+//const corsOptions = {origin: "http://127.0.0.1:8080"}; // Your frontend URL };
+app.use(cors());
 
 const port = 3000;
 const con_string =
