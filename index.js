@@ -10,7 +10,12 @@ app.use("/methods", things);
 
 const cors = require("cors");
 //const corsOptions = {origin: "http://127.0.0.1:8080"}; // Your frontend URL };
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'https://ichurch-fe.vercel.app', // Allow requests only from your frontend domain
+  methods: 'GET,POST,PUT,DELETE', // Allow specific HTTP methods
+  allowedHeaders: 'Content-Type,Authorization', // Allow specific headers
+}));
 
 const port = 3000;
 const con_string =
